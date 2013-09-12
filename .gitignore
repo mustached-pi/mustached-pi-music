@@ -1,0 +1,11 @@
+# This is Moka.
+# See the LICENSE file, please.
+
+# Don't track configuration files
+core/configuration/*
+# Track sample configuration files
+!core/configuration/sample
+
+# All of the uploaded data
+upload/files/*
+!upload/files/index.php
