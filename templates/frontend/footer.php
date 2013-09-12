@@ -3,8 +3,8 @@
 
     <div class="container" id="theTableContainer"> 
 
-      <div class="row">
-        <div class="col-md-6 upperPart">
+      <div class="row visible-lg visible-md">
+        <div class="col-xs-6 upperPart">
           <table id="theArtists" class="table table-striped table-condensed">
             <thead>
               <th>Artist</th>
@@ -13,7 +13,7 @@
             </tbody>
           </table>
         </div>
-        <div class="col-md-6 upperPart">
+        <div class="col-xs-6 upperPart">
           <table id="theAlbums" class="table table-striped table-condensed">
             <thead>
               <th>Albums</th>
@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <hr />
+      <hr class="visible-md visible-lg" />
       <table id="theTable" class="table table-striped table-condensed table-hover">
         <thead>
           <th>&nbsp;</th>
@@ -32,7 +32,7 @@
           <th>Album</th>
           <th>Artist</th>
           <th>Year</th>
-          <th>Genre</th>
+          <th class="visible-lg">Genre</th>
           <th>Lenght</th>
         </thead>
 
@@ -62,34 +62,49 @@
       </footer>
     </div>
     <nav class="navbar thePlayerBar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
+    <div class="container ">
 
 
       <div class="row align-center">
-
-        <div class="col-md-3">
-          <audio src="about:blank" controls autoplay id="thePlayer"></audio>
-        </div>
-
-        <div class="col-md-6">
-        <p>
-          <span class="strong" id="theTrackName">(No track playing)</span>
-          &mdash; <span id="theArtistName">(No artist)</span><br />
-          <span id="theTrackDuration">0:00</span>
-          from the album <span id="theAlbumName">(no album)</span>
-        </p>
-        </div>
-
-        <div class="col-md-3">
-        <form class="navbar-form navbar-right" role="search">
-          <div class="form-group">
-
-            <input id="theSearchInput" type="text" class="form-control" autofocus placeholder="Search music...">
-          </div>
-          <button type="submit" id="theSearchButton" class="btn btn-default">
-            <i class="icon-search"></i>
+        <div class="navbar-header col-md-3">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
           </button>
-        </form>
+          <div class="">
+            <audio src="about:blank" controls id="thePlayer"></audio>
+          </div>
+
+        </div>
+
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+
+
+
+          <div class="col-md-6">
+          <p>
+            <span class="strong" id="theTrackName">(No track playing)</span>
+            &mdash; <span id="theArtistName">(No artist)</span><br />
+            <span id="theTrackDuration">0:00</span>
+            from the album <span id="theAlbumName">(no album)</span>
+          </p>
+          </div>
+
+          <div class="col-md-3">
+          <form class="navbar-right" role="search">
+            <div class=" input-group">
+
+              <input id="theSearchInput" type="text" class="form-control" autofocus placeholder="Search music...">
+              <div class="input-group-btn">
+                <button type="submit" id="theSearchButton" class="btn btn-default">
+                  <i class="icon-search"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+          </div>
+
         </div>
       </div>
 

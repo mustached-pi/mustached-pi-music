@@ -114,5 +114,6 @@ if ( isset($conf['memcached']) ) {
  * Gets the current session from the user cookie
  * and persists it creating a new one!
  */
-$session = new Session(@$_COOKIE['sid']);
+$session = new Session();
 setcookie('sid', (string) $session);
+$session->delete();

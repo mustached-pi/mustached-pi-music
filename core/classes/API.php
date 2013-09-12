@@ -46,7 +46,7 @@ class API {
 				['genre' 	=> $regex ]
 			]
 		];
-		$y = Track::find($query);
+		$y = Track::find($query)->sort(['track' => 1]);
 		$r = [];
 		foreach ( $y as $x ) {
 			$x = Track::object($x);

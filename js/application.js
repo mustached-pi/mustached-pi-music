@@ -1,9 +1,12 @@
+
 $(document).ready(function() {
 
 	// This is your default javascript file
 	$("#thePlayer").bind("ended", function() {
-		console.log("A track has ended.");
+		var el = $("[data-track]").eq(0);
+		playTrack(el.data('track'));
 	});
+
 
 	$("#theSearchButton").click ( function() {
 		startSearch(
@@ -13,12 +16,16 @@ $(document).ready(function() {
 	});
 
 	startSearch("");
+
+
+
 });
 
 function playTrack(trackID) {
 	$("#thePlayer").attr('src', '/open.php?id=' + trackID);
 	$("#thePlayer").trigger("play");
 	loadMeta(trackID);
+	$("[data-track=" + trackID + "]").removeAttr('data-track');
 }
 
 function loadMeta(trackID) {
@@ -80,13 +87,14 @@ function hideSearchResults() {
 function paintTracksTable ( results ) {
 	var string = '';
 	for ( var i in results ) {
-		string += "<tr>\n";
-		string += " <td><a onclick='playTrack(\"" + results[i].id + "\");'><i class='icon-play-sign'></i> Play</a></td>\n";
+		string += "<tr data-track='" + results[i].id + "'>\n";
+		string += " <td><a onclick='playTrack(\"" + results[i].id + "\");'><i class='icon-play-sign'></i></a>";
+		string += " <a href='/open.php?id=" + results[i].id + "&download'><i class='icon-download'></i></a></td>\n";
 		string += " <td>" + results[i].title + "</td>\n";
 		string += " <td><a onclick='startSearch(\"" + results[i].album + "\");'>" + results[i].album + "</a></td>\n";
 		string += " <td><a onclick='startSearch(\"" + results[i].artist + "\");'>" + results[i].artist + "</a></td>\n";
 		string += " <td><a onclick='searchTrack(\"" + results[i].year + "\");'>" + results[i].year + "</a></td>\n";
-		string += " <td><a onclick='searchTrack(\"" + results[i].genre + "\");'>" + results[i].genre + "</a></td>\n";
+		string += " <td class='visible-lg'><a onclick='searchTrack(\"" + results[i].genre + "\");'>" + results[i].genre + "</a></td>\n";
 		string += " <td>" + results[i].playtime + "</td>\n";
 		string += "</tr>\n";
 	}
