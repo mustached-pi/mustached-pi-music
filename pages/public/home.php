@@ -21,10 +21,3 @@
  *
  */
 
-?>
-
-<!-- Replace this with your custom home page -->
-
-<h2>It works! <i class="icon-smile"></i></h2>
-<h3 class="pull-right">... and this is your home page.</h3>
-<p>Welcome to your new Moka application.</p>

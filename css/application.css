@@ -2,7 +2,11 @@
  * Your application default css
  */
 body {
-	padding: 60px 0 40px 0;
+	padding: 80px 0 40px 0;
+}
+
+.navbar {
+  color: #ddd;
 }
 
 
@@ -18,6 +22,24 @@ body {
 }
 .align-justify {
 	text-align: justify;
+}
+.strong {
+  font-weight: bold;
+}
+
+#thePlayer {
+  margin: 8px 0px 0px 15px;
+}
+
+.thePlayerBar {
+  padding-top: 10px;
+  border-top: 2px solid gray;
+  padding-bottom: 10px;
+}
+
+.upperPart {
+  overflow-y: scroll;
+  height: 300px;
 }
 
 /**

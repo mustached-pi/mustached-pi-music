@@ -1,24 +1,55 @@
 
     </div>
 
-    <div class="container">
+    <div class="container" id="theTableContainer"> 
 
-      <h3 id="theTableDescription">&nbsp;</h3>
+      <div class="row">
+        <div class="col-md-6 upperPart">
+          <table id="theArtists" class="table table-striped table-condensed">
+            <thead>
+              <th>Artist</th>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6 upperPart">
+          <table id="theAlbums" class="table table-striped table-condensed">
+            <thead>
+              <th>Albums</th>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-      <table id="theTable" style="display: none;" class="table table-striped">
+      <hr />
+      <table id="theTable" class="table table-striped table-condensed table-hover">
         <thead>
-          <tr>
-            <th>Title</th>
-            <th>Album</th>
-            <th>Artist</th>
-            <th>Year</th>
-            <th>Genre</th>
-            <th>Lenght</th>
-            <th>Play</th>
-          </tr>
+          <th>&nbsp;</th>
+          <th>Title</th>
+          <th>Album</th>
+          <th>Artist</th>
+          <th>Year</th>
+          <th>Genre</th>
+          <th>Lenght</th>
         </thead>
 
         <tbody>
+          <tr class="info align-center">
+            <td colspan="7">
+            <h2>
+              <i class="icon-smile"></i> Welcome to the Mustached Pi Music Project
+            </h2>
+            <p>&nbsp;</p>
+            <p>
+              <i class="icon-info-sign"></i>
+              Please search for something using the search form. Or you may select an artist or an album.
+            </p>  
+            <p>&nbsp;</p>
+            </td>
+          </tr>
 
         </tbody>
       </table>
@@ -27,29 +58,29 @@
     <div class="container">
       <hr>
       <footer>
-        <p>&copy; [[author]] 2013</p>
+        <p>&copy;2013 The Mustached Pi Music project</p>
       </footer>
     </div>
-    <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#">Mustached Pi Play</a>
-      </div>
-      
-      <audio src="about:blank" controls autoplay id="thePlayer"></audio>
+    <nav class="navbar thePlayerBar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
 
-      <div class="collapse navbar-collapse navbar-ex1-collapse">
 
-      <div class="btn-group">
-        <a class="btn btn-default">
-          <i class="icon-step-backward"></i>
-        </a>
-        <a class="btn btn-default">
-          <i class="icon-step-forward"></i>
-        </a>
-      </div>
+      <div class="row align-center">
 
-      The track name
+        <div class="col-md-3">
+          <audio src="about:blank" controls autoplay id="thePlayer"></audio>
+        </div>
 
+        <div class="col-md-6">
+        <p>
+          <span class="strong" id="theTrackName">(No track playing)</span>
+          &mdash; <span id="theArtistName">(No artist)</span><br />
+          <span id="theTrackDuration">0:00</span>
+          from the album <span id="theAlbumName">(no album)</span>
+        </p>
+        </div>
+
+        <div class="col-md-3">
         <form class="navbar-form navbar-right" role="search">
           <div class="form-group">
 
@@ -59,20 +90,10 @@
             <i class="icon-search"></i>
           </button>
         </form>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Link</a></li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
-              <li><a href="#">Separated link</a></li>
-            </ul>
-          </li>
-        </ul>
-
+        </div>
       </div>
+
+    </div>
     </nav>
 
 

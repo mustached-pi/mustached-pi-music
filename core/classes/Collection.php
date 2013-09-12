@@ -84,6 +84,17 @@ abstract class Collection {
 	}
 
 	/**
+	 * Find objects in the collection using a query
+	 *
+	 * @param array 		$query 		The query
+	 * @param array 		$fields 	What you need to get
+	 * @return MongoCursor 	The result of the query
+	 */
+	public static function distinct( $key, $query = [] ) {
+		return static::_collection()->distinct($key, $query);
+	}
+
+	/**
 	 * Find the first object in the collection using a query
 	 *
 	 * @param array 		$query 		The query

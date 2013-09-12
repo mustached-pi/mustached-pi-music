@@ -35,13 +35,15 @@ class API {
 		];
 	}
 
-	public function api_search() {
+	public function api_searchTrack() {
 		$regex = new MongoRegex("/{$this->params['query']}/i");
 		$query = [
 			'$or' => [
 				['title'  	=> $regex ],
 				['artist' 	=> $regex ],
 				['album' 	=> $regex ],
+				['year' 	=> $regex ],
+				['genre' 	=> $regex ]
 			]
 		];
 		$y = Track::find($query);
@@ -59,6 +61,32 @@ class API {
 			];
 		}
 		return $r;
+	}
+
+	public function api_searchArtist() {
+		$regex = new MongoRegex("/{$this->params['query']}/i");
+		$query = [
+			'$or' => [
+				['artist' 	=> $regex ],
+				['album' 	=> $regex ],
+			]
+		];
+		$y = Track::distinct("artist", $query);
+		sort($y);
+		return $y;
+	}
+
+	public function api_searchAlbum() {
+		$regex = new MongoRegex("/{$this->params['query']}/i");
+		$query = [
+			'$or' => [
+				['artist' 	=> $regex ],
+				['album' 	=> $regex ],
+			]
+		];
+		$y = Track::distinct("album", $query);
+		sort($y);
+		return $y;
 	}
 
 }
