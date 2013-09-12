@@ -2,9 +2,8 @@
 
 require("core/core.php");
 
-$id=$_GET['file'];
-
-$x=track::object($id);
+$id = $_GET['id'];
+$x = Track::object($id);
 
 header("Content-Type: {$x->mime}");
 header("Content-Description: File Transfer");

@@ -29,12 +29,6 @@ require 'core/core.php';
 ob_start('ob_gzhandler');
 ob_start('_template_replace');
 
-/*
- * Gets the current session from the user cookie
- * and persists it creating a new one!
- */
-$session = new Session(@$_COOKIE['sid']);
-setcookie('sid', (string) $session);
 
 /*
  * Now set the $me global variable, if I'm in!

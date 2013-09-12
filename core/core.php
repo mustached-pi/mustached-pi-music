@@ -109,3 +109,10 @@ if ( isset($conf['memcached']) ) {
 		die("Error connecting to the cache server: {$e->message}\n");
 	}
 }
+
+/*
+ * Gets the current session from the user cookie
+ * and persists it creating a new one!
+ */
+$session = new Session(@$_COOKIE['sid']);
+setcookie('sid', (string) $session);

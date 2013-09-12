@@ -5,6 +5,10 @@ require("getid3/getid3.php");
 $pollo = new getID3;
 require("core/core.php");
 
+$extensions = [
+	'mp3', 'flac', 'ogg'
+];
+
 /*
  * anacreon
  * A simple indexer in php
@@ -32,7 +36,6 @@ try {
 $finfo = finfo_open(FILEINFO_MIME);
 $count = 0;
 
-require 'core/classes/track.php';
 
 switch ( $argv[1] ) {
 	case 'index':
@@ -70,7 +73,6 @@ function drop() {
 
 function index ( $directory ) {
 	global $db;
-	index_setup();
 	$start = time();
 	echo "[START] Starting at " . date("d-m-Y H:i:s") . "\n";
 	index_recursive($directory);
@@ -93,107 +95,55 @@ function index_recursive ( $dir  ) {
 }
 
 function index_add ( $path, $file ) {
-	global $db, $count, $pollo;
+	global $db, $count, $pollo, $extensions;
 	$count++;
-	$size = (int) filesize($file);
-	$mime = index_mime_type($file);
-	if(is_dir($file))
-	{
+
+	$extension = pathinfo($file, PATHINFO_EXTENSION);
+	if (
+		is_dir($file) ||
+		!in_array($extension, $extensions)
+	) 	{ return; } 
+
+	$iei    = $pollo->analyze($file);
+	
+	getid3_lib::CopyTagsToComments($iei);
+
+	$meta = @$iei['comments_html'];
+	if ( empty($meta['title']) ) {
 		return;
 	}
-	else
-	{
-		$iei    = $pollo->analyze($file);
-		if (empty($iei['id3v1']["artist"]))
-		{
-			return;
-		}
 
-		$x 		= new track;
-		
-		foreach ($iei['id3v1'] as $key => $value)
-		{
-			if($key == "comment" || $key == "comments")
-			{
-				continue;
-			}
-
-			try
-			{
-				$x->{$key} = $value;
-			} catch (MongoException $e) {
-				// ...
-			}
-		}
-		try 
-		{
-			$x->path = $iei['filepath'];
-		}
-		catch (MongoException $e) 
-		{
-				// ...
-		}
-		try 
-		{
-			$x->playtime_string = $iei['playtime_string'];
-		}
-		catch (MongoException $e) 
-		{
-				// ...
-		}
-		try 
-		{
-			$x->playtime_seconds = $iei['playtime_seconds'];
-		}
-		catch (MongoException $e) 
-		{
-				// ...
-		}
-		foreach ($iei["audio"] as $key => $value) {
-			try
-			{
-				$x->{$key} = $value;
-			} catch (MongoException $e) {
-				// ...
-			}
-			
-
-		}
-		$x->size=$size;
-		$x->mime=$mime;
+	$size = (int) filesize($file);
+	$mime = index_mime_type($file);
+	$x 		= new Track;
+	
+	/* Fix on the year */
+	if ( @strpos(@$meta['year'][0], "Z") !== false ) {
+		@$meta['year'][0] = @substr(@$meta['year'][0], 0, 4);
 	}
 
-	/*$q = $db->prepare("
-		INSERT INTO anacreon_index
-			(node, path, size, mime)
-		VALUES
-			(:node, :path, :size, :mime)");
-	$q->bindValue(":node", 	$file);
-	$q->bindValue(":path",	$path);
-	$q->bindValue(":size",	$size, PDO::PARAM_INT);
-	$q->bindValue(":mime",	$mime);
-	$r = (int) $q->execute();
-	*/
+	foreach ($meta as $key => $value) {
+		if ( in_array($key, ['comment', 'comments']) ) { continue; }
+		try {
+			$x->{$key} = @$value[0];
+		} catch (MongoException $e) { }
+	}
+
+	try {
+		$x->path  		= $file;
+		$x->playtime 	= (int) $iei['playtime_seconds'];
+	} catch (MongoException $e) {}
+
+	foreach ($iei["audio"] as $key => $value) {
+		try
+		{
+			$x->{$key} = $value;
+		} catch (MongoException $e) { }
+	}
+	$x->size=$size;
+	$x->mime=$mime;
+	
 	echo "[INDEX-ADD] " . sprintf("% 10d", $count) . ", : {$file}\n";
-}
-
-function index_setup () {
-	/*global $db;
-	$q = $db->exec("
-		CREATE TABLE anacreon_index (
-			node	varchar(255)	PRIMARY KEY,
-			path	varchar(255),
-			size	int,
-			mime	varchar(32)
-		)
-	");
-	if ( $q ) {
-		$db->exec("CREATE INDEX path_index ON anacreon_index ( path )");
-		$db->exec("CREATE INDEX size_index ON anacreon_index ( size )");
-		$db->exec("CREATE INDEX mime_index ON anacreon_index ( mime )");
-	}
-	*/
-	echo "[CREATE-TABLE] Status \n";
 }
 
 function index_mime_type ( $file ) {
